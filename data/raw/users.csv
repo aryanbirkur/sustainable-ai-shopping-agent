@@ -1,0 +1,121 @@
+user_id,age_group,preferred_categories,preferred_materials,budget_range,sustainability_preference,source
+U0001,25-34,Jackets,Organic Cotton,under_1500,low,synthetic_v1
+U0002,35-44,Shirts,Recycled Nylon,4000_8000,medium,synthetic_v1
+U0003,25-34,Jackets,Tencel Lyocell,1500_4000,medium,synthetic_v1
+U0004,18-24,Bags,Recycled Nylon,4000_8000,high,synthetic_v1
+U0005,55+,Dresses,Recycled Polyester,under_1500,low,synthetic_v1
+U0006,18-24,Bags,Organic Cotton,1500_4000,low,synthetic_v1
+U0007,35-44,Shirts,Recycled Polyester,8000_plus,medium,synthetic_v1
+U0008,18-24,Shoes,Polyester,8000_plus,high,synthetic_v1
+U0009,18-24,Jackets,Recycled Nylon,under_1500,medium,synthetic_v1
+U0010,18-24,Jeans,Hemp Blend,8000_plus,low,synthetic_v1
+U0011,55+,Jeans,Organic Cotton,under_1500,low,synthetic_v1
+U0012,25-34,Shirts,Linen,1500_4000,high,synthetic_v1
+U0013,55+,Shirts,Conventional Cotton,4000_8000,low,synthetic_v1
+U0014,35-44,Bags,Bamboo Fabric,8000_plus,low,synthetic_v1
+U0015,55+,Bags,Bamboo Fabric,1500_4000,low,synthetic_v1
+U0016,25-34,Shoes,Conventional Cotton,under_1500,high,synthetic_v1
+U0017,25-34,Bags,Conventional Cotton,8000_plus,medium,synthetic_v1
+U0018,35-44,Dresses,Linen,1500_4000,low,synthetic_v1
+U0019,18-24,Jackets,Tencel Lyocell,under_1500,high,synthetic_v1
+U0020,35-44,T-Shirts,Linen,4000_8000,medium,synthetic_v1
+U0021,18-24,Jeans,Conventional Cotton,under_1500,low,synthetic_v1
+U0022,18-24,Shoes,Polyester,under_1500,high,synthetic_v1
+U0023,25-34,Jackets,Conventional Cotton,4000_8000,low,synthetic_v1
+U0024,55+,Bags,Organic Cotton,4000_8000,low,synthetic_v1
+U0025,35-44,Shoes,Bamboo Fabric,4000_8000,low,synthetic_v1
+U0026,18-24,T-Shirts,Recycled Nylon,1500_4000,high,synthetic_v1
+U0027,35-44,Bags,Bamboo Fabric,1500_4000,medium,synthetic_v1
+U0028,35-44,Bags,Bamboo Fabric,under_1500,high,synthetic_v1
+U0029,35-44,T-Shirts,Conventional Cotton,4000_8000,high,synthetic_v1
+U0030,35-44,Jackets,Organic Cotton,under_1500,medium,synthetic_v1
+U0031,35-44,Shirts,Recycled Polyester,1500_4000,high,synthetic_v1
+U0032,55+,Shoes,Recycled Polyester,4000_8000,low,synthetic_v1
+U0033,18-24,Jeans,Linen,4000_8000,low,synthetic_v1
+U0034,25-34,Shoes,Tencel Lyocell,under_1500,low,synthetic_v1
+U0035,18-24,Jeans,Recycled Nylon,under_1500,high,synthetic_v1
+U0036,55+,Shoes,Polyester,4000_8000,high,synthetic_v1
+U0037,35-44,T-Shirts,Bamboo Fabric,under_1500,medium,synthetic_v1
+U0038,45-54,T-Shirts,Linen,4000_8000,high,synthetic_v1
+U0039,18-24,Shirts,Recycled Polyester,under_1500,high,synthetic_v1
+U0040,18-24,T-Shirts,Conventional Cotton,under_1500,medium,synthetic_v1
+U0041,35-44,Jackets,Polyester,under_1500,medium,synthetic_v1
+U0042,25-34,Shoes,Polyester,1500_4000,low,synthetic_v1
+U0043,35-44,Shirts,Hemp Blend,under_1500,high,synthetic_v1
+U0044,18-24,Jackets,Tencel Lyocell,1500_4000,low,synthetic_v1
+U0045,55+,Shirts,Bamboo Fabric,under_1500,high,synthetic_v1
+U0046,55+,Jeans,Tencel Lyocell,8000_plus,high,synthetic_v1
+U0047,25-34,T-Shirts,Bamboo Fabric,1500_4000,high,synthetic_v1
+U0048,45-54,Shirts,Polyester,4000_8000,medium,synthetic_v1
+U0049,25-34,Jackets,Bamboo Fabric,4000_8000,medium,synthetic_v1
+U0050,25-34,Shoes,Recycled Polyester,8000_plus,medium,synthetic_v1
+U0051,55+,Jackets,Organic Cotton,under_1500,medium,synthetic_v1
+U0052,55+,Shirts,Recycled Nylon,1500_4000,high,synthetic_v1
+U0053,25-34,Bags,Recycled Polyester,1500_4000,low,synthetic_v1
+U0054,18-24,Shirts,Tencel Lyocell,under_1500,high,synthetic_v1
+U0055,18-24,Dresses,Bamboo Fabric,1500_4000,low,synthetic_v1
+U0056,35-44,T-Shirts,Organic Cotton,1500_4000,high,synthetic_v1
+U0057,18-24,Bags,Organic Cotton,8000_plus,low,synthetic_v1
+U0058,35-44,Shirts,Conventional Cotton,1500_4000,low,synthetic_v1
+U0059,18-24,Bags,Linen,4000_8000,medium,synthetic_v1
+U0060,45-54,Dresses,Polyester,4000_8000,medium,synthetic_v1
+U0061,25-34,Bags,Hemp Blend,1500_4000,medium,synthetic_v1
+U0062,35-44,Shirts,Tencel Lyocell,8000_plus,medium,synthetic_v1
+U0063,35-44,Jackets,Organic Cotton,4000_8000,low,synthetic_v1
+U0064,45-54,Jackets,Hemp Blend,under_1500,low,synthetic_v1
+U0065,45-54,Shoes,Recycled Nylon,1500_4000,medium,synthetic_v1
+U0066,18-24,Jeans,Hemp Blend,4000_8000,medium,synthetic_v1
+U0067,25-34,Jackets,Organic Cotton,8000_plus,high,synthetic_v1
+U0068,18-24,Shoes,Conventional Cotton,4000_8000,medium,synthetic_v1
+U0069,25-34,Jackets,Tencel Lyocell,4000_8000,medium,synthetic_v1
+U0070,45-54,Jeans,Hemp Blend,8000_plus,low,synthetic_v1
+U0071,45-54,Shirts,Organic Cotton,1500_4000,high,synthetic_v1
+U0072,45-54,Jackets,Tencel Lyocell,1500_4000,low,synthetic_v1
+U0073,35-44,Dresses,Linen,4000_8000,high,synthetic_v1
+U0074,18-24,Jeans,Polyester,4000_8000,high,synthetic_v1
+U0075,45-54,T-Shirts,Recycled Polyester,under_1500,low,synthetic_v1
+U0076,35-44,Jeans,Tencel Lyocell,1500_4000,high,synthetic_v1
+U0077,45-54,Shoes,Organic Cotton,1500_4000,low,synthetic_v1
+U0078,35-44,Bags,Polyester,8000_plus,high,synthetic_v1
+U0079,35-44,T-Shirts,Conventional Cotton,1500_4000,low,synthetic_v1
+U0080,18-24,Dresses,Recycled Nylon,8000_plus,medium,synthetic_v1
+U0081,35-44,Shoes,Tencel Lyocell,8000_plus,high,synthetic_v1
+U0082,55+,Shoes,Linen,under_1500,medium,synthetic_v1
+U0083,45-54,Shoes,Tencel Lyocell,1500_4000,medium,synthetic_v1
+U0084,18-24,Bags,Linen,4000_8000,medium,synthetic_v1
+U0085,25-34,Shoes,Linen,8000_plus,low,synthetic_v1
+U0086,45-54,Shoes,Organic Cotton,under_1500,low,synthetic_v1
+U0087,55+,Shirts,Tencel Lyocell,8000_plus,low,synthetic_v1
+U0088,25-34,Jackets,Bamboo Fabric,under_1500,low,synthetic_v1
+U0089,55+,Jackets,Hemp Blend,1500_4000,high,synthetic_v1
+U0090,25-34,Shirts,Linen,under_1500,low,synthetic_v1
+U0091,35-44,T-Shirts,Bamboo Fabric,under_1500,medium,synthetic_v1
+U0092,55+,Jackets,Tencel Lyocell,under_1500,medium,synthetic_v1
+U0093,25-34,Shoes,Recycled Polyester,under_1500,medium,synthetic_v1
+U0094,55+,Shoes,Tencel Lyocell,under_1500,medium,synthetic_v1
+U0095,35-44,Shoes,Hemp Blend,under_1500,medium,synthetic_v1
+U0096,25-34,Bags,Bamboo Fabric,4000_8000,low,synthetic_v1
+U0097,18-24,Shoes,Tencel Lyocell,4000_8000,low,synthetic_v1
+U0098,45-54,Dresses,Linen,4000_8000,medium,synthetic_v1
+U0099,55+,Dresses,Hemp Blend,under_1500,high,synthetic_v1
+U0100,18-24,Dresses,Organic Cotton,4000_8000,low,synthetic_v1
+U0101,25-34,Bags,Hemp Blend,1500_4000,high,synthetic_v1
+U0102,18-24,Dresses,Hemp Blend,1500_4000,low,synthetic_v1
+U0103,25-34,Shirts,Recycled Nylon,8000_plus,low,synthetic_v1
+U0104,45-54,Shirts,Hemp Blend,under_1500,low,synthetic_v1
+U0105,25-34,Jeans,Recycled Nylon,8000_plus,low,synthetic_v1
+U0106,18-24,Bags,Hemp Blend,8000_plus,medium,synthetic_v1
+U0107,18-24,Shirts,Linen,under_1500,high,synthetic_v1
+U0108,25-34,Dresses,Bamboo Fabric,under_1500,low,synthetic_v1
+U0109,25-34,Shirts,Recycled Polyester,1500_4000,medium,synthetic_v1
+U0110,18-24,Jackets,Tencel Lyocell,1500_4000,medium,synthetic_v1
+U0111,55+,Dresses,Polyester,4000_8000,medium,synthetic_v1
+U0112,25-34,Bags,Polyester,1500_4000,medium,synthetic_v1
+U0113,45-54,Shirts,Conventional Cotton,4000_8000,medium,synthetic_v1
+U0114,35-44,Shoes,Tencel Lyocell,under_1500,low,synthetic_v1
+U0115,45-54,Jeans,Bamboo Fabric,8000_plus,low,synthetic_v1
+U0116,55+,T-Shirts,Hemp Blend,under_1500,low,synthetic_v1
+U0117,55+,Bags,Recycled Polyester,8000_plus,medium,synthetic_v1
+U0118,55+,Dresses,Hemp Blend,under_1500,high,synthetic_v1
+U0119,25-34,Shoes,Tencel Lyocell,1500_4000,low,synthetic_v1
+U0120,18-24,Shoes,Polyester,under_1500,low,synthetic_v1

@@ -1,0 +1,96 @@
+"""
+recommendation/content_based/content_scorer.py
+
+Type: Recommendation-algorithm (thin packaging layer, not a model itself)
+
+Wraps Milestone 4's Transformer-based semantic search
+(vector_search.semantic_search) and repackages its output as a normalized
+0-1 content score per candidate product for the hybrid blender.
+
+Does NOT re-embed products or reimplement vector search -- that logic stays
+in embeddings/ and vector_search/ from Milestone 4.
+
+Also adds one thing Milestone 4 didn't have: an honest "out_of_domain" flag.
+This catalog is apparel-only (Shoes/Bags/T-Shirts/Jeans/Jackets/Shirts/Dresses).
+A query like "wireless bluetooth headphones" will still get top_k results back
+from Chroma (it always returns *something*), but their similarity scores will
+be far lower than a genuine match (~0.10-0.19 vs ~0.68+ for a real match, based
+on manual verification against this catalog). Rather than silently presenting
+those low-similarity results as confident recommendations, this wrapper flags them.
+
+NOTE: semantic_search() nests per-product fields under a "metadata" dict, e.g.
+{"product_id": ..., "similarity": ..., "metadata": {"product_name": ..., "price": ...}}
+-- confirmed against a live call on 2026-08-31.
+"""
+
+import logging
+from typing import Dict, List, Optional, Tuple
+
+from vector_search.semantic_search import semantic_search
+from config import settings
+
+logger = logging.getLogger(__name__)
+
+
+def get_content_scores(
+    query: str,
+    top_k: Optional[int] = None,
+    min_similarity_threshold: Optional[float] = None,
+) -> Tuple[Dict[str, float], Dict[str, dict], bool, float]:
+    """
+    Run semantic search for `query` and package results for the hybrid blender.
+
+    Returns:
+        scores: {product_id: content_score in [0, 1]}
+        metadata: {product_id: {product_name, category, brand, price, sustainability_score}}
+        is_out_of_domain: True if even the best match is below the threshold --
+            signals "this catalog probably doesn't have what you're looking for"
+            instead of silently returning low-relevance products as confident matches.
+        best_similarity: the top raw similarity score seen (for logging/debugging).
+    """
+    top_k = top_k or settings.RECOMMENDATION_CANDIDATE_POOL_SIZE
+    min_similarity_threshold = (
+        min_similarity_threshold
+        if min_similarity_threshold is not None
+        else settings.CONTENT_MIN_SIMILARITY_THRESHOLD
+    )
+
+    try:
+        results = semantic_search(query, top_k=top_k)
+    except Exception as e:
+        logger.error(f"Semantic search failed for query='{query}': {e}")
+        return {}, {}, True, 0.0
+
+    if not results:
+        logger.warning(f"No semantic search results for query='{query}'")
+        return {}, {}, True, 0.0
+
+    scores: Dict[str, float] = {}
+    metadata: Dict[str, dict] = {}
+    best_similarity = 0.0
+
+    for r in results:
+        pid = r["product_id"]
+        similarity = float(r["similarity"])
+        content_score = max(0.0, min(1.0, similarity))  # defensive clip to [0,1]
+        scores[pid] = content_score
+
+        m = r.get("metadata", {})
+        metadata[pid] = {
+            "product_name": m.get("product_name"),
+            "category": m.get("category"),
+            "brand": m.get("brand"),
+            "price": m.get("price"),
+            "sustainability_score": m.get("sustainability_score"),
+        }
+        best_similarity = max(best_similarity, similarity)
+
+    is_out_of_domain = best_similarity < min_similarity_threshold
+    if is_out_of_domain:
+        logger.warning(
+            f"Query '{query}' looks out-of-domain for this catalog "
+            f"(best similarity={best_similarity:.4f} < threshold={min_similarity_threshold}). "
+            f"Flagging results as low-confidence rather than presenting them as strong matches."
+        )
+
+    return scores, metadata, is_out_of_domain, best_similarity
