@@ -9,3 +9,6 @@ data/processed/*
 data/eda/*
 !data/eda/.gitkeep
 data/chroma_store/*
+!data/processed/products_scored.csv
+!data/processed/interactions_clean.csv
+.DS_Store

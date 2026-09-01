@@ -17,11 +17,13 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Sustainable AI Shopping Agent API", version="0.9.0")
 
-# DEV-ONLY: permissive CORS for local development. Tighten before any real
-# deployment -- see config/settings.py API_CORS_ORIGINS.
+from config.settings import API_CORS_ORIGINS
+
+# CORS origins come from config/settings.py, which reads the CORS_ORIGINS
+# env var (comma-separated) and falls back to "*" for local dev.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=API_CORS_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )

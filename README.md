@@ -5,9 +5,10 @@ milestones. See `docs/` for the full architecture (Milestone 1) and
 dataset documentation (Milestone 2).
 
 ## Status
-- Milestone 1: Project foundation — DONE
-- Milestone 2: Dataset + data pipeline — DONE
-- Milestone 3: Sustainability intelligence engine — NOT STARTED
+Milestones 1-10 complete (foundation, data pipeline, sustainability
+scoring, embeddings/semantic search, recommendation blending, review
+intelligence, intent extraction, intent wiring, FastAPI backend,
+Streamlit frontend). 101 tests passing. Deployment in progress.
 
 ## Quickstart (Milestone 2)
 

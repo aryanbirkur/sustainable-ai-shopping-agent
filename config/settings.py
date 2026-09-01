@@ -139,8 +139,11 @@ SUSTAINABILITY_TILT_AMOUNT = 0.15
 # ---- Milestone 9: FastAPI settings ----
 API_HOST = "127.0.0.1"
 API_PORT = 8000
-API_CORS_ORIGINS = ["*"]  # DEV ONLY -- restrict to real origins before deployment
+import os as _os_deploy
+
+_cors_env = _os_deploy.environ.get("CORS_ORIGINS")
+API_CORS_ORIGINS = _cors_env.split(",") if _cors_env else ["*"]  # reads CORS_ORIGINS env var; "*" for local dev
 API_MAX_TOP_K = 50
 
 # ---- Milestone 10: Frontend settings ----
-API_BASE_URL = "http://127.0.0.1:8000"
+API_BASE_URL = _os_deploy.environ.get("API_BASE_URL", "http://127.0.0.1:8000")
