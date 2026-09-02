@@ -167,6 +167,12 @@ def _filter_candidates(
     for pid in content_scores:
         m = metadata[pid]
         price = m.get("price")
+        # Chroma metadata stores a missing/NaN price as "" (not None) --
+        # see build_vector_index.py's build_metadata(). Treat anything
+        # that isn't a real number as "unknown", same as None, rather
+        # than comparing a string to a float and crashing.
+        if isinstance(price, bool) or not isinstance(price, (int, float)):
+            price = None
         cat = m.get("category")
         if price_min is not None and (price is None or price < price_min):
             continue
