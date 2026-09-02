@@ -200,7 +200,10 @@ def test_out_of_catalog_and_out_of_domain_both_surface(monkeypatch, small_intera
     monkeypatch.setattr(blender, "get_content_scores", lambda query, **kw: (fake_scores, fake_meta, True, 0.05))
     blender._cf_scorer = CollaborativeFilteringScorer(interactions_path=small_interactions_csv)
 
-    output = recommend_with_intent(query="electronics under 500", user_id=None)
+    # "headphones" is genuinely out-of-catalog (unlike "electronics", which
+    # became a real category once Amazon Reviews 2023 was integrated --
+    # see scripts/03_integrate_amazon_categories.py).
+    output = recommend_with_intent(query="headphones under 500", user_id=None)
     assert output["warnings"]["out_of_catalog_category"] is True
     assert output["warnings"]["out_of_domain_query"] is True
     assert output["intent"]["category"] is None
