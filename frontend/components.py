@@ -35,6 +35,11 @@ def render_result_card(st, item):
     is_real_product = str(item.get("product_id", "")).startswith("HM")
     source_tag = '<span class="data-source-tag">Real product · H&amp;M</span>' if is_real_product else ""
 
+    price_display = f"Rs. {item['price']:.2f}" if item.get("price") is not None else "Price not available"
+
+    if item.get("image_path"):
+        st.image(item["image_path"], use_container_width=True)
+
     st.markdown(
         f"""
         <div class="product-card tier-{tier}">
@@ -45,7 +50,7 @@ def render_result_card(st, item):
                     <div class="product-meta">{item['category']}</div>
                 </div>
                 <div style="text-align:right;">
-                    <div class="price-tag">Rs. {item['price']:.2f}</div>
+                    <div class="price-tag">{price_display}</div>
                 </div>
             </div>
             <div class="sustainability-line tier-{tier}">

@@ -76,13 +76,20 @@ def get_content_scores(
         scores[pid] = content_score
 
         m = r.get("metadata", {})
+        raw_price = m.get("price")
+        # Chroma stores a missing/NaN price as "" (see build_vector_index.py's
+        # build_metadata()), since its metadata validator rejects real NaN/None.
+        # Normalize back to a real None here -- the single point everything
+        # downstream (filtering, the API response, the frontend) reads from --
+        # instead of special-casing "" separately in each consumer.
+        price = raw_price if isinstance(raw_price, (int, float)) and not isinstance(raw_price, bool) else None
         metadata[pid] = {
             "product_name": m.get("product_name"),
             "category": m.get("category"),
             "brand": m.get("brand"),
-            "price": m.get("price"),
+            "price": price,
             "sustainability_score": m.get("sustainability_score"),
-            "image_path": m.get("image_path"),
+            "image_path": m.get("image_path") or None,
         }
         best_similarity = max(best_similarity, similarity)
 

@@ -51,7 +51,7 @@ class ResultItem(BaseModel):
     product_name: str
     category: str
     brand: str
-    price: float
+    price: Optional[float] = None
     sustainability_score: float
     image_path: Optional[str] = None
 
