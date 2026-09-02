@@ -86,14 +86,21 @@ def render_hero(st):
 
 
 def compute_summary_stats(results):
-    prices = [r["price"] for r in results]
-    scores = [r["sustainability_score"] for r in results]
-    categories = [r["category"] for r in results]
+    # Filter out None before aggregating -- most H&M and Amazon products
+    # have no known price, and a product could in principle lack a
+    # sustainability_score too. sum()/len() on a list containing None
+    # raises TypeError, so only real values go into the average, and the
+    # average is honestly computed over however many products actually
+    # have that field, not silently treated as 0.
+    prices = [r["price"] for r in results if r.get("price") is not None]
+    scores = [r["sustainability_score"] for r in results if r.get("sustainability_score") is not None]
+    categories = [r["category"] for r in results if r.get("category")]
     top_category = max(set(categories), key=categories.count) if categories else "-"
     return {
         "count": len(results),
-        "avg_price": sum(prices) / len(prices) if prices else 0,
-        "avg_sustainability": sum(scores) / len(scores) if scores else 0,
+        "avg_price": sum(prices) / len(prices) if prices else None,
+        "avg_price_known_count": len(prices),
+        "avg_sustainability": sum(scores) / len(scores) if scores else None,
         "top_category": top_category,
     }
 
@@ -102,8 +109,20 @@ def render_summary_metrics(st, results):
     stats = compute_summary_stats(results)
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Results", stats["count"])
-    c2.metric("Avg Price", f"Rs. {stats['avg_price']:.0f}")
-    c3.metric("Avg Sustainability", f"{stats['avg_sustainability']:.2f}")
+
+    if stats["avg_price"] is not None:
+        price_label = f"Rs. {stats['avg_price']:.0f}"
+        price_help = f"Based on {stats['avg_price_known_count']} of {stats['count']} results with a known price"
+    else:
+        price_label = "N/A"
+        price_help = "No results in this set have a known price"
+    c2.metric("Avg Price", price_label, help=price_help)
+
+    if stats["avg_sustainability"] is not None:
+        c3.metric("Avg Sustainability", f"{stats['avg_sustainability']:.2f}")
+    else:
+        c3.metric("Avg Sustainability", "N/A")
+
     c4.metric("Top Category", stats["top_category"])
 
 
