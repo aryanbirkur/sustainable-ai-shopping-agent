@@ -12,3 +12,7 @@ data/chroma_store/*
 !data/processed/products_scored.csv
 !data/processed/interactions_clean.csv
 .DS_Store
+data/hm_raw/
+data/product_images/
+models/sentiment_model_cache/
+data/raw/*_pre_hm_backup.csv

@@ -82,6 +82,7 @@ def get_content_scores(
             "brand": m.get("brand"),
             "price": m.get("price"),
             "sustainability_score": m.get("sustainability_score"),
+            "image_path": m.get("image_path"),
         }
         best_similarity = max(best_similarity, similarity)
 

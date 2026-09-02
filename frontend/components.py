@@ -4,12 +4,13 @@ Display logic only -- no HTTP calls, no AI/ML logic."""
 import pandas as pd
 
 
-def sustainability_badge_class(score):
+def sustainability_tier(score):
+    """Returns ('high'|'mid'|'low', label) -- tier drives both card color and text."""
     if score >= 0.6:
-        return "badge-green"
+        return "high", "High"
     elif score >= 0.4:
-        return "badge-yellow"
-    return "badge-red"
+        return "mid", "Moderate"
+    return "low", "Low"
 
 
 def render_warnings(st, warnings):
@@ -30,19 +31,25 @@ def render_score_bar(st, label, value):
 
 
 def render_result_card(st, item):
-    badge_class = sustainability_badge_class(item["sustainability_score"])
+    tier, tier_label = sustainability_tier(item["sustainability_score"])
+    is_real_product = str(item.get("product_id", "")).startswith("HM")
+    source_tag = '<span class="data-source-tag">Real product · H&amp;M</span>' if is_real_product else ""
+
     st.markdown(
         f"""
-        <div class="product-card">
+        <div class="product-card tier-{tier}">
             <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                 <div>
-                    <h4 style="margin-bottom:2px;">{item['product_name']}</h4>
-                    <div style="color:#666;">{item['brand']} &middot; {item['category']}</div>
+                    <h4>{item['product_name']}{source_tag}</h4>
+                    <div class="product-meta">{item['brand']}</div>
+                    <div class="product-meta">{item['category']}</div>
                 </div>
                 <div style="text-align:right;">
                     <div class="price-tag">Rs. {item['price']:.2f}</div>
-                    <span class="badge {badge_class}">Sustainability {item['sustainability_score']:.2f}</span>
                 </div>
+            </div>
+            <div class="sustainability-line tier-{tier}">
+                Sustainability: {tier_label} ({item['sustainability_score']:.2f})
             </div>
         </div>
         """,
@@ -64,9 +71,9 @@ def render_result_card(st, item):
 def render_hero(st):
     st.markdown(
         """
-        <div class="hero-banner">
-            <h1>🌱 Sustainable AI Shopping Agent</h1>
-            <p>Discover apparel that's smart, stylish, and kind to the planet.</p>
+        <div class="page-header">
+            <h1>Sustainable AI Shopping Agent</h1>
+            <p>Search apparel with sustainability signal built into every ranking.</p>
         </div>
         """,
         unsafe_allow_html=True,

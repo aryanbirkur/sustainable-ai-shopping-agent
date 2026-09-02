@@ -26,7 +26,7 @@ from vector_search.vector_store import get_chroma_client, get_products_collectio
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
-REQUIRED_METADATA_FIELDS = ["product_id", "category", "price", "sustainability_score"]
+REQUIRED_METADATA_FIELDS = ["product_id", "category", "price", "sustainability_score", "image_path"]
 
 
 def build_metadata(row: pd.Series) -> dict:

@@ -53,6 +53,7 @@ class ResultItem(BaseModel):
     brand: str
     price: float
     sustainability_score: float
+    image_path: Optional[str] = None
 
 
 class IntentInfo(BaseModel):
