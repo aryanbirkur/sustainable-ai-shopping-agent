@@ -29,6 +29,12 @@ CATEGORY_VARIANTS = {
     "Dresses": ["dresses", "dress"],
     "Electronics": ["electronics", "electronic"],
     "Cell Phones & Accessories": ["phone", "phones", "cell phone", "cell phones", "smartphone", "smartphones"],
+    "Beauty & Personal Care": ["beauty", "makeup", "cosmetics", "skincare", "skin care", "personal care"],
+    "Arts, Crafts & Sewing": ["arts and crafts", "craft supplies", "crafts", "craft", "sewing"],
+    "Toys & Games": ["toys", "toy", "games", "board game", "board games"],
+    "Musical Instruments": ["musical instrument", "musical instruments", "guitar", "keyboard instrument"],
+    "Handmade Products": ["handmade"],
+    "Industrial & Scientific": ["industrial supplies", "scientific equipment", "industrial and scientific"],
 }
 
 # Common out-of-catalog terms worth explicitly recognizing so the
@@ -51,8 +57,9 @@ def extract_category(query: str) -> Dict[str, Optional[object]]:
 
     Returns:
         {"category": str | None, "unparsed_confidence_notes": list[str]}
-    category is one of the 7 confirmed catalog category strings, or
-    None if no match is found (never a guessed/closest category).
+    category is one of the confirmed catalog category strings (see
+    CATEGORY_VARIANTS keys), or None if no match is found (never a
+    guessed/closest category).
     """
     query_lower = query.lower()
     notes: List[str] = []
@@ -66,7 +73,7 @@ def extract_category(query: str) -> Dict[str, Optional[object]]:
         if re.search(rf"\b{re.escape(term)}\b", query_lower):
             notes.append(
                 f"Query mentions '{term}', which is not a category in this "
-                "catalog (catalog is 100% apparel) -- category not extracted."
+                "catalog -- category not extracted."
             )
             return {"category": None, "unparsed_confidence_notes": notes}
 

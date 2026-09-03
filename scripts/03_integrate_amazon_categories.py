@@ -8,7 +8,9 @@ existing validation/cleaning pipeline unchanged -- same pattern as
 scripts/02_integrate_hm_data.py.
 
 Categories added: Electronics, Cell_Phones_and_Accessories,
-Home_and_Kitchen, Beauty_and_Personal_Care.
+Home_and_Kitchen, Beauty_and_Personal_Care, All_Beauty,
+Arts_Crafts_and_Sewing, Toys_and_Games, Musical_Instruments,
+Handmade_Products, Industrial_and_Scientific.
 
 HONESTY NOTE: this dataset is a static snapshot collected at a fixed
 point in time. It does NOT contain current-year new releases. Fields
@@ -41,6 +43,19 @@ CATEGORY_CONFIGS = {
     "Cell_Phones_and_Accessories": "Cell Phones & Accessories",
     "Home_and_Kitchen": "Home & Kitchen",
     "Beauty_and_Personal_Care": "Beauty & Personal Care",
+    # Added this session: confirmed available as Parquet on the Hub
+    # (checked via HfApi().list_repo_files -- see handoff). All_Beauty is
+    # a SEPARATE, smaller HF category from Beauty_and_Personal_Care, not
+    # a duplicate -- mapped to the same our_category on purpose so both
+    # populate "Beauty & Personal Care" as each becomes available.
+    "All_Beauty": "Beauty & Personal Care",
+    "Arts_Crafts_and_Sewing": "Arts, Crafts & Sewing",
+    "Toys_and_Games": "Toys & Games",
+    "Musical_Instruments": "Musical Instruments",
+    "Handmade_Products": "Handmade Products",
+    "Industrial_and_Scientific": "Industrial & Scientific",
+    # Gift_Cards deliberately excluded: not a physical product, no
+    # material/carbon/packaging profile -- doesn't fit this catalog.
 }
 
 TOP_N_PER_CATEGORY = 500

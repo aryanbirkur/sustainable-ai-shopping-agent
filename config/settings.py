@@ -127,7 +127,7 @@ REVIEWS_CLEAN_PATH = "data/processed/reviews_clean.csv"
 PRODUCT_SENTIMENT_OUTPUT_PATH = "data/processed/product_sentiment.csv"
 
 # ==================== MILESTONE 7: INTENT EXTRACTION ====================
-CATALOG_CATEGORIES = ["Shoes", "Bags", "T-Shirts", "Jeans", "Jackets", "Shirts", "Dresses", "Electronics", "Cell Phones & Accessories"]
+CATALOG_CATEGORIES = ["Shoes", "Bags", "T-Shirts", "Jeans", "Jackets", "Shirts", "Dresses", "Electronics", "Cell Phones & Accessories", "Beauty & Personal Care", "Arts, Crafts & Sewing", "Toys & Games", "Musical Instruments", "Handmade Products", "Industrial & Scientific"]
 
 # ==================== MILESTONE 8: WIRING INTENT INTO SEARCH & BLENDING ====================
 # Fraction of weight shifted from content/collaborative into sustainability
