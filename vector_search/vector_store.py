@@ -42,6 +42,15 @@ def get_products_collection(client: chromadb.PersistentClient):
     )
 
 
+# ChromaDB's client enforces a max items-per-call limit on upsert/add
+# (observed: 5461 on this machine's Chroma version -- the exact number
+# is derived from the underlying batch executor, not a constant Chroma
+# publishes, so we stay comfortably under it rather than hardcode their
+# ceiling). Batching here means every caller of upsert_products is
+# protected, not just build_vector_index.py.
+MAX_UPSERT_BATCH_SIZE = 5000
+
+
 def upsert_products(
     collection,
     product_ids: List[str],
@@ -55,14 +64,26 @@ def upsert_products(
     script updates existing rows in place instead of duplicating them.
     `documents` (the embedding text) is stored too so debugging/tests
     can see exactly what was embedded.
+
+    Chunks internally into batches of MAX_UPSERT_BATCH_SIZE, since
+    Chroma rejects a single upsert() call above its internal max batch
+    size (hit in practice once the catalog crossed ~6000 products).
     """
-    collection.upsert(
-        ids=[str(pid) for pid in product_ids],
-        embeddings=embeddings.tolist() if hasattr(embeddings, "tolist") else embeddings,
-        metadatas=metadatas,
-        documents=documents,
-    )
-    logger.info(f"Upserted {len(product_ids)} products into '{collection.name}'")
+    ids = [str(pid) for pid in product_ids]
+    embeddings_list = embeddings.tolist() if hasattr(embeddings, "tolist") else embeddings
+
+    total = len(ids)
+    for start in range(0, total, MAX_UPSERT_BATCH_SIZE):
+        end = start + MAX_UPSERT_BATCH_SIZE
+        collection.upsert(
+            ids=ids[start:end],
+            embeddings=embeddings_list[start:end],
+            metadatas=metadatas[start:end],
+            documents=documents[start:end] if documents is not None else None,
+        )
+        logger.info(f"  upserted batch [{start}:{min(end, total)}] ({min(end, total) - start} products)")
+
+    logger.info(f"Upserted {total} products into '{collection.name}' in {(total + MAX_UPSERT_BATCH_SIZE - 1) // MAX_UPSERT_BATCH_SIZE} batch(es)")
 
 
 def query_similar(collection, query_embedding, top_k: int = 5) -> List[Dict]:
