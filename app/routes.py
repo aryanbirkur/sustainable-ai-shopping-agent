@@ -10,8 +10,9 @@ import logging
 
 from fastapi import APIRouter, HTTPException, Query
 
-from app.schemas import RecommendResponse, RecommendManualResponse
+from app.schemas import RecommendResponse, RecommendManualResponse, ProductDetailResponse
 from recommendation.hybrid import recommend, recommend_with_intent
+from backend.services.product_detail_service import get_product_detail
 
 logger = logging.getLogger(__name__)
 
@@ -100,3 +101,19 @@ def get_recommendations_manual(
         })
 
     return {"results": results}
+
+
+@router.get("/products/{product_id}/detail", response_model=ProductDetailResponse)
+def get_product_detail_route(product_id: str):
+    """
+    Lazily computes review sentiment for one product (live inference,
+    not precomputed) -- called only when the frontend expands a specific
+    product's detail view, not for every search result.
+    """
+    detail = get_product_detail(product_id)
+    if detail is None:
+        raise HTTPException(status_code=404, detail={
+            "code": "PRODUCT_NOT_FOUND",
+            "message": f"No product found with id '{product_id}'.",
+        })
+    return detail

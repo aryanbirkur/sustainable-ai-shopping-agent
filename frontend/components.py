@@ -76,6 +76,28 @@ def render_result_card(st, item):
         render_score_bar(st, "Sustainability", breakdown["sustainability"])
     if item.get("cold_start"):
         st.caption("Collaborative signal not yet available for this user (cold start).")
+
+    with st.expander("View sustainability & review details"):
+        from frontend.api_client import get_product_detail
+        detail, error = get_product_detail(item["product_id"])
+        if error:
+            st.caption(f"Could not load details: {error}")
+        elif detail:
+            st.markdown(f"**Explanation:** {detail['score_explanation'] or 'No explanation available.'}")
+            d1, d2 = st.columns(2)
+            with d1:
+                st.metric("Rule-based score", f"{detail['sustainability_score_rule']:.2f}" if detail['sustainability_score_rule'] is not None else "N/A")
+            with d2:
+                st.metric("ML score", f"{detail['sustainability_score_ml']:.2f}" if detail['sustainability_score_ml'] is not None else "N/A")
+
+            sentiment = detail["review_sentiment"]
+            if sentiment["review_count"] > 0:
+                st.markdown(f"**Reviews:** {sentiment['review_count']} scored, "
+                             f"{sentiment['pct_positive']*100:.0f}% positive, "
+                             f"avg polarity {sentiment['avg_polarity']:.2f}")
+            else:
+                st.caption("No reviews available for this product.")
+
     st.divider()
 
 

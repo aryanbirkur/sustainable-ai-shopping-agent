@@ -112,6 +112,9 @@ def get_content_scores(
             "price_inr_equiv": price_inr_equiv,
             "source": source,
             "sustainability_score": m.get("sustainability_score"),
+            "sustainability_score_rule": m.get("sustainability_score_rule"),
+            "sustainability_score_ml": m.get("sustainability_score_ml"),
+            "score_explanation": m.get("score_explanation") or None,
             "image_path": m.get("image_path") or None,
         }
         best_similarity = max(best_similarity, similarity)

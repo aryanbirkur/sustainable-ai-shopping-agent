@@ -58,3 +58,14 @@ def get_recommendations_manual(query, price_min=None, price_max=None, category=N
     except requests.exceptions.RequestException as e:
         return None, f"Request failed: {e}"
     return _handle_response(r)
+
+
+def get_product_detail(product_id):
+    """Calls GET /products/{product_id}/detail. Returns (data, error) tuple."""
+    try:
+        r = requests.get(f"{settings.API_BASE_URL}/products/{product_id}/detail", timeout=15)
+    except requests.exceptions.ConnectionError:
+        return None, f"Could not connect to the API. Is it running on {settings.API_BASE_URL}?"
+    except requests.exceptions.RequestException as e:
+        return None, f"Request failed: {e}"
+    return _handle_response(r)

@@ -20,6 +20,15 @@ CUSTOM_CSS = """
     font-family: 'IBM Plex Sans', sans-serif;
     color: var(--ink);
 }
+/* Streamlit's built-in icons (expander arrows, etc.) render via a
+   ligature-based icon font (Material Symbols) inside elements tagged
+   data-testid="stIconMaterial". The broad ".stApp span" rule above
+   was overriding that font, so the browser showed the literal
+   ligature name ("keyboard_double_arrow_right") as text instead of
+   the arrow glyph. Excluding these elements restores the icon. */
+[data-testid="stIconMaterial"] {
+    font-family: 'Material Symbols Rounded' !important;
+}
 h1, h2, h3, h4 {
     font-family: 'Fraunces', serif;
     color: var(--ink);

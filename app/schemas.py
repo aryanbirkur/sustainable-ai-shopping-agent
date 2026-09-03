@@ -56,6 +56,9 @@ class ResultItem(BaseModel):
     price_inr_equiv: Optional[float] = None  # internal approximation, for aggregation only -- never display as a price
     source: Optional[str] = None
     sustainability_score: float
+    sustainability_score_rule: Optional[float] = None
+    sustainability_score_ml: Optional[float] = None
+    score_explanation: Optional[str] = None
     image_path: Optional[str] = None
 
 
@@ -94,3 +97,21 @@ class ErrorDetail(BaseModel):
 
 class ErrorResponse(BaseModel):
     error: ErrorDetail
+
+
+class ReviewSentiment(BaseModel):
+    avg_polarity: Optional[float] = None
+    pct_positive: Optional[float] = None
+    pct_negative: Optional[float] = None
+    sentiment_confidence_avg: Optional[float] = None
+    review_count: int
+
+
+class ProductDetailResponse(BaseModel):
+    product_id: str
+    product_name: Optional[str] = None
+    sustainability_score: Optional[float] = None
+    sustainability_score_rule: Optional[float] = None
+    sustainability_score_ml: Optional[float] = None
+    score_explanation: Optional[str] = None
+    review_sentiment: ReviewSentiment
