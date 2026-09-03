@@ -83,11 +83,34 @@ def get_content_scores(
         # downstream (filtering, the API response, the frontend) reads from --
         # instead of special-casing "" separately in each consumer.
         price = raw_price if isinstance(raw_price, (int, float)) and not isinstance(raw_price, bool) else None
+        source = m.get("source") or None
+
+        # Currency handling: the catalog mixes real USD (Amazon), real INR
+        # (synthetic), and no price at all (H&M). `price`/`currency` are the
+        # HONEST native values -- shown to the user exactly as-is, never
+        # converted for display. `price_inr_equiv` is an internal-only
+        # approximation (documented static rate, config.settings.USD_TO_INR_RATE)
+        # used for cross-currency filtering/sorting and aggregate stats --
+        # it is exposed in the API for that purpose but must never be shown
+        # to the user as if it were a real per-product price.
+        currency = settings.SOURCE_CURRENCY.get(source) if price is not None else None
+        if price is None or currency is None:
+            price_inr_equiv = None
+        elif currency == "INR":
+            price_inr_equiv = price
+        elif currency == "USD":
+            price_inr_equiv = round(price * settings.USD_TO_INR_RATE, 2)
+        else:
+            price_inr_equiv = None
+
         metadata[pid] = {
             "product_name": m.get("product_name"),
             "category": m.get("category"),
             "brand": m.get("brand"),
             "price": price,
+            "currency": currency,
+            "price_inr_equiv": price_inr_equiv,
+            "source": source,
             "sustainability_score": m.get("sustainability_score"),
             "image_path": m.get("image_path") or None,
         }

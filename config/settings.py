@@ -147,3 +147,46 @@ API_MAX_TOP_K = 50
 
 # ---- Milestone 10: Frontend settings ----
 API_BASE_URL = _os_deploy.environ.get("API_BASE_URL", "http://127.0.0.1:8000")
+
+# --- Currency handling (real H&M/Amazon data integration) ---
+# Amazon Reviews 2023 prices are real USD values scraped from Amazon.com;
+# synthetic_v1 prices were generated directly in INR; hm_real_v1 has no
+# usable price at all (H&M's public price field is normalized 0-1, not
+# real currency, and was left blank at integration time).
+SOURCE_CURRENCY = {
+    "synthetic_v1": "INR",
+    "hm_real_v1": None,
+    "amazon_real_v1": "USD",
+}
+CURRENCY_SYMBOLS = {"INR": "Rs.", "USD": "$"}
+# Approximate, static conversion rate used ONLY internally for cross-currency
+# price filtering/sorting and aggregate stats -- never shown to the user as
+# if it were a product's real listed price. Set 2026-09; not a live rate.
+USD_TO_INR_RATE = 83.0
+
+# Category-level sustainability baseline, used ONLY when a product has
+# ZERO real sustainability input attributes (material, carbon_footprint_kg,
+# eco_certification, etc. all missing) -- true today for every hm_real_v1
+# and amazon_real_v1 product. This is a coarse, hand-set heuristic
+# reflecting generally-understood, disclosed industry patterns per
+# category -- NOT a per-product measurement, and NOT derived from any real
+# environmental data specific to these products. See
+# docs/dataset_sourcing.md for the full rationale. A category not listed
+# here falls back to the prior universal neutral value (0.5).
+CATEGORY_SUSTAINABILITY_BASELINE = {
+    "Shoes": 0.35,                     # footwear manufacturing is resource-intensive
+    "Bags": 0.45,
+    "T-Shirts": 0.35,
+    "Jeans": 0.30,                     # denim production is water/chemical-intensive
+    "Jackets": 0.40,
+    "Shirts": 0.38,
+    "Dresses": 0.38,
+    "Electronics": 0.25,               # high embodied carbon, mining, e-waste, short lifecycles
+    "Cell Phones & Accessories": 0.30,
+    "Beauty & Personal Care": 0.30,    # packaging-heavy, often single-use
+    "Arts, Crafts & Sewing": 0.45,
+    "Toys & Games": 0.30,              # heavy plastic use typical of the category
+    "Musical Instruments": 0.55,       # typically durable, long product lifetime
+    "Handmade Products": 0.60,         # small-batch, typically lower industrial input
+    "Industrial & Scientific": 0.40,   # too heterogeneous for a confident estimate; kept neutral-ish
+}

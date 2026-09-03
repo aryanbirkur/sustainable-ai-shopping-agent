@@ -29,6 +29,7 @@ import pandas as pd
 
 from config.settings import (
     CARBON_FOOTPRINT_BOUNDS,
+    CATEGORY_SUSTAINABILITY_BASELINE,
     ECO_CERTIFICATION_SCORES,
     PRODUCT_LIFETIME_BOUNDS,
     SUSTAINABILITY_COMPONENT_WEIGHTS,
@@ -130,12 +131,15 @@ def compute_sustainability_score(row: pd.Series) -> Tuple[float, Dict[str, Optio
             used_weight += weight
 
     if used_weight == 0.0:
+        category = row.get("category")
+        baseline = CATEGORY_SUSTAINABILITY_BASELINE.get(category, 0.5)
         logger.warning(
             "Product %s has no usable sustainability attributes; "
-            "defaulting to neutral score 0.5.",
-            row.get("product_id", "<unknown>"),
+            "falling back to the '%s' category baseline (%.2f) instead of "
+            "a universal constant -- see docs/dataset_sourcing.md.",
+            row.get("product_id", "<unknown>"), category, baseline,
         )
-        return 0.5, subscores
+        return baseline, subscores
 
     score = weighted_sum / used_weight  # renormalize over whatever data WAS available
     score = round(min(1.0, max(0.0, score)), 4)

@@ -166,11 +166,13 @@ def _filter_candidates(
     filtered_ids = []
     for pid in content_scores:
         m = metadata[pid]
-        price = m.get("price")
-        # Chroma metadata stores a missing/NaN price as "" (not None) --
-        # see build_vector_index.py's build_metadata(). Treat anything
-        # that isn't a real number as "unknown", same as None, rather
-        # than comparing a string to a float and crashing.
+        # price_min/price_max are denominated in Rs. (intent extraction and
+        # the UI's price sliders), so filtering must compare against
+        # price_inr_equiv -- the internal, documented approximate conversion
+        # set in content_scorer.py -- never the raw native `price`, which
+        # can be a real USD number for Amazon products and would otherwise
+        # be compared against a Rs. threshold as if they were the same unit.
+        price = m.get("price_inr_equiv")
         if isinstance(price, bool) or not isinstance(price, (int, float)):
             price = None
         cat = m.get("category")

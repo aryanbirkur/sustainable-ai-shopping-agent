@@ -52,6 +52,9 @@ class ResultItem(BaseModel):
     category: str
     brand: str
     price: Optional[float] = None
+    currency: Optional[str] = None
+    price_inr_equiv: Optional[float] = None  # internal approximation, for aggregation only -- never display as a price
+    source: Optional[str] = None
     sustainability_score: float
     image_path: Optional[str] = None
 

@@ -129,8 +129,8 @@ from recommendation.hybrid.blender import _apply_sustainability_tilt, _filter_ca
 def test_price_filter_excludes_products_above_max(monkeypatch, small_interactions_csv):
     fake_scores = {"P1": 0.9, "P2": 0.8}
     fake_meta = {
-        "P1": {"product_name": "Cheap", "category": "Shoes", "brand": "X", "price": 1000, "sustainability_score": 0.5},
-        "P2": {"product_name": "Pricey", "category": "Shoes", "brand": "Y", "price": 9000, "sustainability_score": 0.5},
+        "P1": {"product_name": "Cheap", "category": "Shoes", "brand": "X", "price": 1000, "price_inr_equiv": 1000, "sustainability_score": 0.5},
+        "P2": {"product_name": "Pricey", "category": "Shoes", "brand": "Y", "price": 9000, "price_inr_equiv": 9000, "sustainability_score": 0.5},
     }
     monkeypatch.setattr(blender, "get_content_scores", lambda query, **kw: (fake_scores, fake_meta, False, 0.9))
     blender._cf_scorer = CollaborativeFilteringScorer(interactions_path=small_interactions_csv)
@@ -212,8 +212,8 @@ def test_out_of_catalog_and_out_of_domain_both_surface(monkeypatch, small_intera
 def test_recommend_with_intent_applies_price_ceiling(monkeypatch, small_interactions_csv):
     fake_scores = {"P1": 0.9, "P2": 0.8}
     fake_meta = {
-        "P1": {"product_name": "Cheap", "category": "Shoes", "brand": "X", "price": 1000, "sustainability_score": 0.5},
-        "P2": {"product_name": "Pricey", "category": "Shoes", "brand": "Y", "price": 9000, "sustainability_score": 0.5},
+        "P1": {"product_name": "Cheap", "category": "Shoes", "brand": "X", "price": 1000, "price_inr_equiv": 1000, "sustainability_score": 0.5},
+        "P2": {"product_name": "Pricey", "category": "Shoes", "brand": "Y", "price": 9000, "price_inr_equiv": 9000, "sustainability_score": 0.5},
     }
     monkeypatch.setattr(blender, "get_content_scores", lambda query, **kw: (fake_scores, fake_meta, False, 0.9))
     blender._cf_scorer = CollaborativeFilteringScorer(interactions_path=small_interactions_csv)

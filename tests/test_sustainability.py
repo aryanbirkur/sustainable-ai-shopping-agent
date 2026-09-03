@@ -122,8 +122,19 @@ class TestRuleBasedScorer:
         score_worst, _ = compute_sustainability_score(strong_with_worst_carbon)
         assert score_missing > score_worst
 
-    def test_all_attributes_missing_falls_back_to_neutral_not_crash(self):
+    def test_all_attributes_missing_falls_back_to_category_baseline(self):
+        # "Shoes" has a documented baseline (0.35) in
+        # config.settings.CATEGORY_SUSTAINABILITY_BASELINE -- this replaces
+        # the old universal-0.5 fallback for any listed category.
         row = pd.Series({"product_id": "TEST_EMPTY", "category": "Shoes"})
+        score, subscores = compute_sustainability_score(row)
+        assert score == 0.35
+        assert all(v is None for v in subscores.values())
+
+    def test_all_attributes_missing_unknown_category_falls_back_to_neutral(self):
+        # A category with no documented baseline still gets the old,
+        # honest neutral default rather than a KeyError or a guess.
+        row = pd.Series({"product_id": "TEST_EMPTY_2", "category": "Some Unlisted Category"})
         score, subscores = compute_sustainability_score(row)
         assert score == 0.5
         assert all(v is None for v in subscores.values())
